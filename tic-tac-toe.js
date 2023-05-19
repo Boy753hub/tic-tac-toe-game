@@ -3,6 +3,10 @@ const cubes = document.getElementsByClassName("cube");
 const endgame = document.getElementById('endgame_background')
 const NewGameButton = document.getElementById('new-game')
 const playerElement = document.getElementById('player');
+const playerId = document.getElementById('player1_score')
+const computerId = document.getElementById('Computer_score')
+let Xscore = 0
+let Oscore = 0
 let currentPlayer = "x";
 let cube = [];
 let computerCube = []
@@ -84,17 +88,7 @@ function checkIfIsEpmtyOrNot(){
         // putoOnRandom();
     }
     
-    function resetGame(){
-        compArray = ['0','1','2','3','4','5','6','7','8']
-        currentPlayer = 'x'
-        winner = null;
-        computerCube = []
-        cube = [];
-        for(let i=0; i<cubes.length + computerCube.length; i++){
-            cubes[i].innerHTML = "";
-        }
-    }
-
+    
     function putonId(id){
         if(!compArray.includes(String(id))){
             putoOnRandom()
@@ -124,12 +118,17 @@ function checkIfIsEpmtyOrNot(){
         if(winner){
             endgame.style.display = "flex"
             playerElement.innerHTML = `${winner.toUpperCase()} wins!`;
+                if(winner === 'x'){
+                    Xscore+= 0.5
+                }else{
+                    Oscore++
+                }
+            playerId.innerHTML = Xscore
+            computerId.innerHTML = Oscore
             NewGameButton.addEventListener('click', ()=>{
                 endgame.style.display = "none"
-                resetGame()
+                return resetGame()
             })
-            // alert(`${winner.toUpperCase()} wins!`);
-            // resetGame();
         }else if(cube.length + computerCube.length === 9){
             endgame.style.display = "flex"
             playerElement.innerHTML = "It's a draw!";
@@ -137,27 +136,29 @@ function checkIfIsEpmtyOrNot(){
                 endgame.style.display = "none"
                 resetGame()
             })
-            // alert("It's a draw!");
-            // resetGame();
         }
     }
     function gameOver(){
-
+        
         checkIfGameIsFinished()
         
         // actions of computer
         if(currentPlayer === "o"){
+            if(cube.length === 0){
+                checkIfGameIsFinished()
+            }
             if(cube.length === 1){
                 // putting o on random free cube
                 putoOnRandom()
                 CheckEmptyCube()
+                checkIfGameIsFinished()
             }
             if(cube.length > 1 && cube.length < 6){
                 CheckEmptyCube()
                 checkIfIsEpmtyOrNot()
                 checkIfGameIsFinished()
             }
-            if(cube.length >= 6){
+            if(cube.length >= 8){
                 CheckEmptyCube()
                 putoOnRandom()
                 checkIfGameIsFinished()
@@ -165,7 +166,17 @@ function checkIfIsEpmtyOrNot(){
         }
     }
     
+    function resetGame(){
+        compArray = ['0','1','2','3','4','5','6','7','8']
+        currentPlayer = 'x'
+        winner = null;
+        computerCube = []
+        cube = [];
+        for(let i=0; i<cubes.length + computerCube.length; i++){
+            cubes[i].innerHTML = "";
+        }
+    }
     game();
-
+    
     //errors to fix: 
     //if x won and then 0 won too winner is overwritten and o won is displayed 
