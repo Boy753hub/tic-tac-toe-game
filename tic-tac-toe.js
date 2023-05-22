@@ -36,6 +36,9 @@ function game(){
         } 
         CheckEmptyCube()
         gameOver();
+        console.log(cube)
+        console.log(computerCube)
+        console.log(compArray)
     });
 }
 

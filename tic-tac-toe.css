@@ -112,3 +112,27 @@ body{
   right: 5%;
   top: -3%;
   border-radius: 99px;}
+
+  @media only screen and (max-width: 600px){
+    .endgame h1{
+        color: red;
+        font-family: 'LVDC Game Over 2', sans-serif;
+        font-size: larger
+    }
+    #player{
+        color: red;
+        font-family: 'LVDC Game Over 2', sans-serif;
+        font-size: medium;                           
+    }
+    
+    #endgame_background{
+        width: 100vh;
+        height: 100vh;
+        position:absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(52, 65, 52, 0.521);
+        display: none;
+    }
+  }
