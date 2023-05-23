@@ -39,6 +39,7 @@ function game(){
         console.log(cube)
         console.log(computerCube)
         console.log(compArray)
+        console.log(boolea)
     });
 }
 
@@ -90,6 +91,27 @@ function checkIfIsEpmtyOrNot(){
         // If no empty position is found in winning combinations, put o on a random free cube
         putoOnRandom();
     }
+let boolea = true
+function checkIfComputerCanWin(){
+    for (let i = 0; i < winningPositions.length; i++) {
+        let [a, b, c] = winningPositions[i];
+      if (computerCube.includes(String(a)) && computerCube.includes(String(b)) && !computerCube.includes(String(c))) {
+            putonId2(c)
+            boolea = true
+          return; // Exit the function after making a move
+        } else if (computerCube.includes(String(a)) && computerCube.includes(String(c)) && !computerCube.includes(String(b))) {
+            putonId2(b)
+            boolea = true
+            return; // Exit the function after making a move
+        } else if (computerCube.includes(String(b)) && computerCube.includes(String(c)) && !computerCube.includes(String(a))) {
+            putonId2(a)
+            boolea = true
+            return; // Exit the function after making a move
+        }
+    }
+    //if not just return false
+    return boolea = false
+}
     
     
     function putonId(id){
@@ -103,6 +125,16 @@ function checkIfIsEpmtyOrNot(){
         
     }
     
+    function putonId2(id){
+        if(!compArray.includes(String(id))){
+            checkIfIsEpmtyOrNot()
+        }else{
+        insertXamdY(String(id));
+        computerCube.push(String(id));
+        currentPlayer = 'x';        
+        }
+    }
+    
     function checkIfGameIsFinished(){
         let winner = null;
         //player winning is here
@@ -110,6 +142,7 @@ function checkIfIsEpmtyOrNot(){
             const [a, b, c] = winningPositions[i];
             if(cube.includes(String(a)) && cube.includes(String(b)) && cube.includes(String(c))){
                 winner = 'x';
+                break
                 //checking if computer won
             }else if(computerCube.includes(String(a)) && computerCube.includes(String(b)) && computerCube.includes(String(c))){
                 winner = 'o';
@@ -126,8 +159,8 @@ function checkIfIsEpmtyOrNot(){
                 }else{
                     Oscore++
                 }
-            playerId.innerHTML = Xscore
-            computerId.innerHTML = Oscore
+            playerId.innerHTML = Math.floor(Xscore)
+            computerId.innerHTML = Math.floor(Oscore)
             NewGameButton.addEventListener('click', ()=>{
                 endgame.style.display = "none"
                 return resetGame()
@@ -158,13 +191,19 @@ function checkIfIsEpmtyOrNot(){
             }
             if(cube.length > 1 && cube.length < 6){
                 CheckEmptyCube()
-                checkIfIsEpmtyOrNot()
+                checkIfComputerCanWin()
                 checkIfGameIsFinished()
+                if(!boolea){
+                    checkIfIsEpmtyOrNot()
+                } 
             }
             if(cube.length >= 8){
                 CheckEmptyCube()
-                putoOnRandom()
+                checkIfComputerCanWin()
                 checkIfGameIsFinished()
+                if(!boolea){
+                    putoOnRandom()
+                } 
             }
         }
     }
