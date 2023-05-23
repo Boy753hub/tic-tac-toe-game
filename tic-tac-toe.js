@@ -88,7 +88,7 @@ function checkIfIsEpmtyOrNot(){
             }
         }
         // If no empty position is found in winning combinations, put o on a random free cube
-        // putoOnRandom();
+        putoOnRandom();
     }
     
     
